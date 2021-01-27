@@ -51,3 +51,4 @@ In each case, you will be prompted to enter user name and repository name.
 ## Improvement ideas
 - Logging
 - Configuration files
+- AutoMapper
