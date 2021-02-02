@@ -1,6 +1,7 @@
 ﻿using RepositoryScanner.Exceptions;
 using RepositoryScanner.Interfaces;
 using System;
+using System.Threading.Tasks;
 
 namespace RepositoryScanner
 {
@@ -15,15 +16,15 @@ namespace RepositoryScanner
             this.gitHubCommunicationService = gitHubCommunicationService;
         }
 
-        public void Start(string[] args)
+        public async Task StartAsync(string[] args)
         {
             try
             {
                 var (userName, repositoryName) = GetInputParams(args);
-                var commits = gitHubCommunicationService.GetCommits(userName, repositoryName);
+                var commits = await gitHubCommunicationService.GetCommitsAsync(userName, repositoryName);
 
                 commitsService.PrintCommits(repositoryName, commits);
-                commitsService.SaveCommits(repositoryName, userName, commits);
+                await commitsService.SaveCommitsAsync(repositoryName, userName, commits);
             }
             catch (GitHubCommunicationException)
             {

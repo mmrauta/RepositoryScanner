@@ -2,6 +2,7 @@
 using RepositoryScanner.Implementations;
 using RepositoryScanner.Interfaces;
 using System;
+using System.Threading.Tasks;
 
 namespace RepositoryScanner
 {
@@ -13,13 +14,13 @@ namespace RepositoryScanner
         /// Application starting point.
         /// </summary>
         /// <param name="args">Optional command line parameters, first should represent username, second a repository name</param>
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             RegisterServices();
             var scope = serviceProvider.CreateScope();
 
             var consoleApplication = scope.ServiceProvider.GetRequiredService<ConsoleApplication>();
-            consoleApplication.Start(args);
+            await consoleApplication.StartAsync(args);
 
             DisposeServices();
         }

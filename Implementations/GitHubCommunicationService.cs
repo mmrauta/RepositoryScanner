@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace RepositoryScanner.Implementations
 {
@@ -13,14 +14,14 @@ namespace RepositoryScanner.Implementations
     {
         private const string GetCommitsUrl = "https://api.github.com/repos/{0}/{1}/commits";
 
-        public List<Commit> GetCommits(string userName, string repositoryName)
+        public async Task<List<Commit>> GetCommitsAsync(string userName, string repositoryName)
         {
             var requestUrl = string.Format(GetCommitsUrl, userName, repositoryName);
 
             using HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.UserAgent.TryParseAdd("request");  // required by GitHub API
 
-            var response = client.GetAsync(requestUrl).Result;
+            var response = await client.GetAsync(requestUrl);
 
             if (!response.IsSuccessStatusCode)
             {

@@ -1,10 +1,11 @@
 ﻿using RepositoryScanner.Entities;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace RepositoryScanner.Interfaces
 {
     public interface IRepositoryCommunicationService
     {
-        List<Commit> GetCommits(string userName, string repositoryName);
+        Task<List<Commit>> GetCommitsAsync(string userName, string repositoryName);
     }
 }

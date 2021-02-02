@@ -4,12 +4,13 @@ using RepositoryScanner.Exceptions;
 using RepositoryScanner.Interfaces;
 using RepositoryScanner.Models;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace RepositoryScanner.Implementations
 {
     public class CommitsRepository : ICommitsRepository
     {
-        public void SaveCommits(string repositoryName, string userName, List<Commit> commits)
+        public async Task SaveCommitsAsync(string repositoryName, string userName, List<Commit> commits)
         {
             try
             { 
@@ -28,7 +29,7 @@ namespace RepositoryScanner.Implementations
                     db.Commits.Add(newCommit);
                 }
 
-                db.SaveChanges();
+                await db.SaveChangesAsync();
             }
             catch (DbUpdateException)
             {

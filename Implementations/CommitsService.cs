@@ -2,6 +2,7 @@
 using RepositoryScanner.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace RepositoryScanner.Implementations
 {
@@ -22,9 +23,9 @@ namespace RepositoryScanner.Implementations
             }
         }
 
-        public void SaveCommits(string repositoryName, string userName, List<Commit> commits)
+        public async Task SaveCommitsAsync(string repositoryName, string userName, List<Commit> commits)
         {
-            commitsRepository.SaveCommits(repositoryName, userName, commits);
+            await commitsRepository.SaveCommitsAsync(repositoryName, userName, commits);
         }
     }
 }
