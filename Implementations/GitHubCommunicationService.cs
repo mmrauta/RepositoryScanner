@@ -1,9 +1,9 @@
-﻿using RepositoryScanner.Entities;
+﻿using AutoMapper;
+using RepositoryScanner.Entities;
 using RepositoryScanner.Exceptions;
 using RepositoryScanner.ExternalModels;
 using RepositoryScanner.Interfaces;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -13,6 +13,12 @@ namespace RepositoryScanner.Implementations
     public class GitHubCommunicationService : IRepositoryCommunicationService
     {
         private const string GetCommitsUrl = "https://api.github.com/repos/{0}/{1}/commits";
+        private readonly IMapper mapper;
+
+        public GitHubCommunicationService(IMapper mapper)
+        {
+            this.mapper = mapper;
+        }
 
         public async Task<List<Commit>> GetCommitsAsync(string userName, string repositoryName)
         {
@@ -29,7 +35,7 @@ namespace RepositoryScanner.Implementations
             }
 
             var gitHubCommits = ParseResponse(response);
-            var commits = MapCommits(gitHubCommits);
+            var commits = mapper.Map<List<Commit>>(gitHubCommits);
 
             return commits;
         }
@@ -40,18 +46,6 @@ namespace RepositoryScanner.Implementations
             var commits = JsonSerializer.Deserialize<List<GitHubCommit>>(jsonResult);
 
             return commits;
-        }
-
-        private static List<Commit> MapCommits(List<GitHubCommit> gitHubCommits)
-        {
-            var commits = gitHubCommits.Select(x => new Commit()
-            {
-                Sha = x.Sha,
-                Message = x.Details.Message,
-                CommitterEmail = x.Details.Committer.Email
-            });
-
-            return commits.ToList();
         }
     }
 }

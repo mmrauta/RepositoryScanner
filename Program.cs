@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using AutoMapper;
+using Microsoft.Extensions.DependencyInjection;
 using RepositoryScanner.Implementations;
 using RepositoryScanner.Interfaces;
 using System;
@@ -33,6 +34,10 @@ namespace RepositoryScanner
             services.AddSingleton<ICommitsService, CommitsService>();
             services.AddSingleton<ICommitsRepository, CommitsRepository>();
             services.AddSingleton<ConsoleApplication>();
+
+            var mapperConfiguration = new MapperConfiguration(c => c.AddProfile(new MappingProfile()));
+            IMapper mapper = mapperConfiguration.CreateMapper();
+            services.AddSingleton(mapper);
 
             serviceProvider = services.BuildServiceProvider(true);
         }
