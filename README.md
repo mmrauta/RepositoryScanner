@@ -47,8 +47,8 @@ In each case, you will be prompted to enter user name and repository name.
 - SQLite
 - Simple Error Handling
 - GitHub API
+- AutoMapper
 
 ## Improvement ideas
 - Logging
 - Configuration files
-- AutoMapper
