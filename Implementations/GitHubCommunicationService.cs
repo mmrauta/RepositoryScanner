@@ -34,15 +34,15 @@ namespace RepositoryScanner.Implementations
                 throw new GitHubCommunicationException();
             }
 
-            var gitHubCommits = ParseResponse(response);
+            var gitHubCommits = await ParseResponseAsync(response);
             var commits = mapper.Map<List<Commit>>(gitHubCommits);
 
             return commits;
         }
 
-        private static List<GitHubCommit> ParseResponse(HttpResponseMessage response)
+        private static async Task<List<GitHubCommit>> ParseResponseAsync(HttpResponseMessage response)
         {
-            var jsonResult = response.Content.ReadAsStringAsync().Result;
+            var jsonResult = await response.Content.ReadAsStringAsync();
             var commits = JsonSerializer.Deserialize<List<GitHubCommit>>(jsonResult);
 
             return commits;
